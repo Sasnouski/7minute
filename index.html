@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html ng-app="app">
+<head>
     <meta charset="UTF-8">
     <title>7 Minute</title>
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css"/>
 </head>
-<body>
+<body ng-app="app" ng-controller="WorkoutController">
 
-
+<div class="navbar navbar-default navbar-fixed-top top-navbar">
+    <div class="container app-container">
+        <div class="navbar-header">
+            <h1>7 Minute Workout</h1>
+        </div>
+    </div>
+</div>
+<div class="container body-content app-container">
+    <pre>Current Exercise: {{currentExercise | json}}</pre>
+    <pre>Time Left: {{currentExercise.duration-currentExerciseDuration}}</pre>
+</div>
 
 
 
@@ -17,8 +27,10 @@
 </body>
 
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.js"></script>
+    <script src="js/libs/angular.js"></script>
+    <script src="js/libs/angular-route.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/7MinWorkout/workout.js"></script>
+    <script src="js/controllers/workout-controller.js"></script>
+
+
 </html>
