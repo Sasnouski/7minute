@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('7minute').controller('WorkoutController', ['$scope','$interval', function($scope, $interval) {
+angular.module('7minute').controller('WorkoutController', ['$scope','$interval', '$location', function($scope, $interval, $location) {
     var restExercise,
         workoutPlan;
     function WorkoutPlan(args) {
@@ -64,17 +64,6 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             title: "7 Minute Workout",
             restBetweenExercise: 10
         });
-
-    //$scope.$watch('currentExerciseDuration', function (nVal) {
-    //    if (nVal == $scope.currentExercise.duration) {
-    //        var next = getNextExercise($scope.currentExercise);
-    //        if (next) {
-    //            startExercise(next);
-    //        } else {
-    //            console.log("Workout complete!")
-    //        }
-    //    }
-    //});
     workout.exercises.push({
         details: new Exercise({
             name: "pushupNRotate",
@@ -109,5 +98,5 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
         startWorkout();
     };
     init();
-
+    $location.path('/finish');
 }]);

@@ -6,19 +6,13 @@
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css"/>
 </head>
-<body ng-app="app" ng-controller="WorkoutController">
+<body ng-app="app">
 
-<div class="navbar navbar-default navbar-fixed-top top-navbar">
-    <div class="container app-container">
-        <div class="navbar-header">
-            <h1>7 Minute Workout</h1>
-        </div>
+<div class="container body-content app-container">
+    <div ng-view>
     </div>
 </div>
-<div class="container body-content app-container">
-    <pre>Current Exercise: {{currentExercise | json}}</pre>
-    <pre>Time Left: {{currentExercise.duration-currentExerciseDuration}}</pre>
-</div>
+
 
 
 
