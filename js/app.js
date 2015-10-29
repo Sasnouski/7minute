@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app',['ngRoute', '7minute'])
-    .config(function ($routeProvider) {
+    .config(['$routeProvider','$sceDelegateProvider', function ($routeProvider, $sceDelegateProvider) {
     $routeProvider.when('/start', {
         templateUrl: 'partials/start.html'
     });
@@ -15,7 +15,12 @@ angular.module('app',['ngRoute', '7minute'])
     $routeProvider.otherwise({
         redirectTo: '/start'
     });
-});
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        'http://*.youtube.com/**'
+    ]);
+
+}]);
 
 
 angular.module('7minute', []);

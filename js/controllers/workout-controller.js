@@ -62,7 +62,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
         var workout = new WorkoutPlan({
             name: "7minWorkout",
             title: "7 Minute Workout",
-            restBetweenExercise: 10
+            restBetweenExercise: 3
         });
     workout.exercises.push({
         details: new Exercise({
@@ -74,7 +74,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             procedure: "Assume the classic pushup position, but as you come up, rotate your body so your right arm lifts up and extends overhead.\
                           Return to the starting position, lower yourself, then push up and rotate till your left hand points toward the ceiling."
         }),
-        duration: 5
+        duration: 7
     });
     workout.exercises.push({
         details: new Exercise({
@@ -89,7 +89,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
                         As you are moving your legs outward, you should raise your arms up over your head; arms should be slightly bent throughout the entire in-air movement.\
                         Your feet should land shoulder width or wider as your hands meet above your head with arms slightly bent"
         }),
-        duration: 5
+        duration: 7
     });
     return workout;
     };
@@ -98,5 +98,4 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
         startWorkout();
     };
     init();
-    $location.path('/finish');
 }]);
