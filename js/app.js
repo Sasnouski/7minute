@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app',['ngRoute', '7minute'])
+angular.module('app',['ngRoute', '7minute', 'ngSanitize'])
     .config(['$routeProvider','$sceDelegateProvider', function ($routeProvider, $sceDelegateProvider) {
     $routeProvider.when('/start', {
         templateUrl: 'partials/start.html'
