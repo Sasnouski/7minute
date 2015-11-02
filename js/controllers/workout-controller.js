@@ -13,10 +13,9 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             angular.forEach(this.exercises, function (exercise) {
                 total = total + exercise.duration;
             });
-            return this.restBetweenExercise * (this.exercises.length - 1)
-                + total;
+            return this.restBetweenExercise * (this.exercises.length - 1) + total;
         }
-    }
+    };
     function Exercise(args) {
         this.name = args.name;
         this.title = args.title;
@@ -33,24 +32,48 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
         restExercise = {
             details: new Exercise({
                 name: "rest",
-                title: " Relax!",
-                description: " Relax a bit!",
-                image: "img/rest.png"
+                title: "Relax!",
+                description: "Relax a bit!",
+                image: "img/rest.png",
             }),
             duration: $scope.workoutPlan.restBetweenExercise
         };
         $interval(function () {
-            $scope.workoutTimeRemaining = $scope.workoutTimeRemaining
-                - 1;
+            $scope.workoutTimeRemaining = $scope.workoutTimeRemaining - 1;
         }, 1000, $scope.workoutTimeRemaining);
-        startExercise($scope.workoutPlan.exercises.shift());
+
+        $scope.currentExerciseIndex = -1;
+        startExercise($scope.workoutPlan.exercises[0]);
+    };
+
+    var startExercise = function (exercisePlan) {
+        $scope.currentExercise = exercisePlan;
+        $scope.currentExerciseDuration = 0;
+
+        if (exercisePlan.details.name != 'rest') {
+            $scope.currentExerciseIndex++;
+        }
+
+        $interval(function () {
+            ++$scope.currentExerciseDuration;
+        }, 1000, $scope.currentExercise.duration)
+            .then(function () {
+                var next = getNextExercise(exercisePlan);
+                if (next) {
+                    startExercise(next);
+                }
+                else {
+                    $location.path('/finish');
+                }
+            });
     };
     var getNextExercise = function (currentExercisePlan) {
         var nextExercise = null;
         if (currentExercisePlan === restExercise) {
-            nextExercise = $scope.workoutPlan.exercises.shift();
-        } else {
-            if ($scope.workoutPlan.exercises.length != 0) {
+            nextExercise = $scope.workoutPlan.exercises[$scope.currentExerciseIndex + 1];
+        }
+        else {
+            if ($scope.currentExerciseIndex < $scope.workoutPlan.exercises.length - 1) {
                 nextExercise = restExercise;
             }
         }
@@ -102,7 +125,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             nameSound: "content/wallsit.wav",
             videos: ["//www.youtube.com/embed/y-wV4Venusw", "//www.youtube.com/embed/MMV3v4ap4ro"],
             procedure: "Place your back against a wall with your feet shoulder width apart and a little ways out from the wall.\
-                          <br/>Then, keeping your back against the wall, lower your hips until your knees form right angles. "
+                        <br/>Then, keeping your back against the wall, lower your hips until your knees form right angles. "
         }),
         duration: 30
     });
@@ -115,8 +138,8 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             nameSound: "content/pushups.wav",
             videos: ["//www.youtube.com/embed/Eh00_rniF8E", "//www.youtube.com/embed/ZWdBqFLNljc", "//www.youtube.com/embed/UwRLWMcOdwI", "//www.youtube.com/embed/ynPwl6qyUNM", "//www.youtube.com/embed/OicNTT2xzMI"],
             procedure: "Lie prone on the ground with hands placed as wide or slightly wider than shoulder width. \
-                          Keeping the body straight, lower body to the ground by bending arms at the elbows. \
-                          Raise body up off the ground by extending the arms."
+                        <br/>Keeping the body straight, lower body to the ground by bending arms at the elbows. \
+                        <br/>Raise body up off the ground by extending the arms."
         }),
         duration: 30
     });
