@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('7minute').controller('WorkoutController', ['$scope','$interval', '$location', function($scope, $interval, $location) {
-    var restExercise;
+    var restExercise,
+        exerciseIntervalPromise;
     function WorkoutPlan(args) {
         this.exercises = [];
         this.name = args.name;
@@ -82,18 +83,38 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
     var startExercise = function (exercisePlan) {
         $scope.currentExercise = exercisePlan;
         $scope.currentExerciseDuration = 0;
-        $interval(function () {
-            $scope.currentExerciseDuration = $scope.currentExerciseDuration + 1;
-        }, 1000, $scope.currentExercise.duration)
-            .then(function(){
-                var next = getNextExercise(exercisePlan);
-                if (next) {
-                    startExercise(next);
-                } else {
-                    console.log("Workout complete!")
-                }
-            });
+        exerciseIntervalPromise = startExerciseTimeTracking();
     };
+    var startExerciseTimeTracking = function () {
+        var promise = $interval(function () {
+            ++$scope.currentExerciseDuration;
+            --$scope.workoutTimeRemaining;
+        }, 1000, $scope.currentExercise.duration
+            - $scope.currentExerciseDuration);
+        promise.then(function () {
+            var next = getNextExercise($scope.currentExercise);
+            if (next) {
+                startExercise(next);
+            } else {
+                $location.path('/finish');
+            }});
+        return promise;
+    };
+    $scope.pauseWorkout = function () {
+        $interval.cancel(exerciseIntervalPromise);
+        $scope.workoutPaused = true;
+    };
+    $scope.resumeWorkout = function () {
+        exerciseIntervalPromise = startExerciseTimeTracking();
+        $scope.workoutPaused = false;
+    };
+    $scope.pauseResumeToggle = function () {
+        if ($scope.workoutPaused) {
+            $scope.resumeWorkout();
+        } else {
+            $scope.pauseWorkout();
+        }
+    }
     var createWorkout = function () {
         var workout = new WorkoutPlan({
             name: "7minWorkout",

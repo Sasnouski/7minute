@@ -38,7 +38,25 @@ angular.module('7minute')
                     }
                 }
             });
-
+            $scope.$watch('workoutPaused', function (newValue, oldValue) {
+                if (newValue) {
+                    $scope.ticksAudio.pause();
+                    $scope.nextUpAudio.pause();
+                    $scope.nextUpExerciseAudio.pause();
+                    $scope.halfWayAudio.pause();
+                    $scope.aboutToCompleteAudio.pause();
+                } else {
+                    $scope.ticksAudio.play();
+                    if ($scope.halfWayAudio.currentTime > 0 &&
+                        $scope.halfWayAudio.currentTime <
+                        $scope.halfWayAudio.duration)
+                        $scope.halfWayAudio.play();
+                    if ($scope.aboutToCompleteAudio.currentTime > 0 &&
+                        $scope.aboutToCompleteAudio.currentTime <
+                        $scope.aboutToCompleteAudio.duration)
+                        $scope.aboutToCompleteAudio.play();
+                }
+            });
             var init = function () {
 
             };
