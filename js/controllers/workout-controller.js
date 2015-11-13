@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('7minute').controller('WorkoutController', ['$scope','$interval', '$location', 'workoutHistoryTracker', function($scope, $interval, $location, workoutHistoryTracker) {
+angular.module('7minute').controller('WorkoutController', ['$scope','$interval', '$location', 'workoutHistoryTracker', 'appEvents', function($scope, $interval, $location, workoutHistoryTracker, appEvents) {
     function WorkoutPlan(args) {
         this.exercises = [];
         this.name = args.name;
@@ -14,7 +14,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             });
             return this.restBetweenExercise * (this.exercises.length - 1) + total;
         }
-    };
+    }
 
     function Exercise(args) {
         this.name = args.name;
@@ -37,7 +37,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
                 name: "rest",
                 title: "Relax!",
                 description: "Relax a bit!",
-                image: "img/rest.png",
+                image: "img/rest.png"
             }),
             duration: $scope.workoutPlan.restBetweenExercise
         };
@@ -52,7 +52,9 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
 
         if (exercisePlan.details.name != 'rest') {
             $scope.currentExerciseIndex++;
+            $scope.$emit(appEvents.workout.exerciseStarted, exercisePlan.details);
         }
+
 
         exerciseIntervalPromise = startExerciseTimeTracking();
     };
@@ -87,7 +89,7 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
         else {
             $scope.pauseWorkout();
         }
-    }
+    };
 
     var startExerciseTimeTracking = function () {
         var promise = $interval(function () {
@@ -107,18 +109,19 @@ angular.module('7minute').controller('WorkoutController', ['$scope','$interval',
             console.log('Inteval promise cancelled. Error reason -' + error);
         });
         return promise;
-    }
+    };
 
     var workoutComplete = function () {
         workoutHistoryTracker.endTracking(true);
         $location.path('/finish');
-    }
+    };
 
     $scope.onKeyPressed = function (event) {
         if (event.which == 80 || event.which == 112) {        // 'p' or 'P' key to toggle pause and resume.
             $scope.pauseResumeToggle();
         }
     };
+
 
     //$scope.$watch('currentExerciseDuration', function (nVal) {
     //    if (nVal == $scope.currentExercise.duration) {

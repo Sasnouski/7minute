@@ -8,31 +8,20 @@
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body ng-app="app" ng-controller="RootController">
-    <div class="navbar navbar-default navbar-fixed-top top-navbar">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <!--<h1>7 Minute Workout</h1>-->
-                <div class="navbar-brand">Personal Trainer</div>
-            </div>
-            <ul class="nav navbar-nav navbar-right"> <li>
-                <a ng-click="showWorkoutHistory()" title="WorkoutHistory">History</a>
-            </li></ul>
-
+<div class="navbar navbar-default navbar-fixed-top top-navbar">
+    <div class="container app-container">
+        <div class="navbar-header">
+            <!--<h1>7 Minute Workout</h1>-->
+            <div class="navbar-brand">7 Minute Workout</div>
         </div>
-        <div id="top-nav-container" class="second-top-nav">
-
-            </div>
-        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a ng-click="showWorkoutHistory()" title="Workout History">History</a></li>
+        </ul>
     </div>
-    <div class="container-fluid">
-        <div id="content-container" class="row">
-
-            <div class="col-sm-10 col-sm-offset-2">
-                <div id="page-content" ng-view></div>
-            </div>
-        </div>
-    </div>
-
+</div>
+<div class="container body-content app-container">
+    <div ng-view></div>
+</div>
 
 
 
@@ -41,6 +30,7 @@
     <script src="js/libs/angular-sanitize.js"></script>
     <script src="js/libs/angular-animate.js"></script>
     <script src="js/libs/ui-bootstrap-tpls.js"></script>
+    <script src="js/libs/angular-local-storage.js"></script>
     <script src="js/app.js"></script>
     <script src="js/root.js"></script>
     <script src="js/controllers/workout-controller.js"></script>
